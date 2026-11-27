@@ -169,8 +169,11 @@ def write(name: str, theme: str, content: str) -> None:
 
 # ---------------------------------------------------------------- cards
 
-def hero(t: dict) -> str:
-    H = 230
+HELLO = {"en": ("~/hello", "Hi, I'm {}"), "es": ("~/hola", "Hola, soy {}")}
+
+
+def hero(t: dict, lang: str) -> str:
+    H = 220
     dots = "".join(
         f'<circle cx="{x}" cy="{y}" r="1.1" fill="{t["grid"]}"/>'
         for x in range(24, W, 24) for y in range(24, H, 24)
@@ -192,22 +195,22 @@ def hero(t: dict) -> str:
         + poly(front, c=t["accent"], w=2)
         + f'<circle cx="{back[1][0]}" cy="{back[1][1]}" r="4" fill="{t["accent2"]}"/>'
     )
-    tag = PROFILE["tagline"]
+    tag = PROFILE["tagline"][lang]
     loc = PROFILE["location"]
     pill_w = len(loc) * 7.8 + 34
+    path, hi = HELLO[lang]
+    hi = hi.format(PROFILE["name"])
     body = (
         dots
-        + text(48, 62, "~/hello", 14, t["accent"], weight=600)
-        + text(48, 112, f"Hi, I'm {PROFILE['name']}", 40, t["text"], family=SANS, weight=700)
-        + text(48, 146, tag["en"], 17, t["muted"], family=SANS)
-        + text(48, 172, tag["es"], 15, t["dim"], family=SANS, extra='font-style="italic"')
-        + f'<rect x="48" y="188" width="{pill_w:.0f}" height="26" rx="13" fill="{t["panel"]}" stroke="{t["border"]}"/>'
-        + f'<circle cx="64" cy="201" r="4" fill="{t["accent2"]}"/>'
-        + text(76, 205.5, loc, 13, t["muted"])
+        + text(48, 66, path, 14, t["accent"], weight=600)
+        + text(48, 118, hi, 40, t["text"], family=SANS, weight=700)
+        + text(48, 154, tag, 17.5 if len(tag) <= 64 else 16, t["muted"], family=SANS)
+        + f'<rect x="48" y="174" width="{pill_w:.0f}" height="26" rx="13" fill="{t["panel"]}" stroke="{t["border"]}"/>'
+        + f'<circle cx="64" cy="187" r="4" fill="{t["accent2"]}"/>'
+        + text(76, 191.5, loc, 13, t["muted"])
         + cube
     )
-    label = f"Hi, I'm {PROFILE['name']}. {tag['en']} / {tag['es']}"
-    return svg(W, H, label, body, t)
+    return svg(W, H, f"{hi}. {tag}", body, t)
 
 
 BADGE_ICONS = {
@@ -240,31 +243,30 @@ def stats(data: dict, t: dict) -> str:
     since = min(data["per_year"]) if data["per_year"] else str(dt.date.today().year)
     total = sum(data["per_year"].values())
     tiles = [
-        (fmt(data["last_year"]), "contributions · last year", "contribuciones · último año"),
-        (f"{current}d", "current streak", "racha actual"),
-        (f"{longest}d", "longest streak (1y)", "racha más larga (1 año)"),
-        (fmt(total), f"contributions since {since}", f"contribuciones desde {since}"),
-        (str(data["repos"]), "public repos", "repos públicos"),
-        (str(data["stars"]), "stars earned", "estrellas recibidas"),
+        (fmt(data["last_year"]), "contributions · last year"),
+        (f"{current}d", "current streak"),
+        (f"{longest}d", "longest streak (1y)"),
+        (fmt(total), f"contributions since {since}"),
+        (str(data["repos"]), "public repos"),
+        (str(data["stars"]), "stars earned"),
     ]
-    H = 346
+    H = 326
     body = text(32, 44, "$ gh stats --me", 14, t["accent"], weight=600)
-    body += text(W - 32, 44, "on GitHub · en GitHub", 13, t["dim"], anchor="end")
-    tw, th, gap = (W - 64 - 2 * 16) / 3, 88, 16
-    for i, (num, en, es) in enumerate(tiles):
+    body += text(W - 32, 44, "public activity on GitHub", 13, t["dim"], anchor="end")
+    tw, th, gap = (W - 64 - 2 * 16) / 3, 78, 16
+    for i, (num, en) in enumerate(tiles):
         x = 32 + (i % 3) * (tw + gap)
         y = 64 + (i // 3) * (th + gap)
         color = t["accent2"] if i == 1 else t["text"]
         body += f'<rect x="{x:.1f}" y="{y}" width="{tw:.1f}" height="{th}" rx="10" fill="{t["panel"]}" stroke="{t["border"]}"/>'
         body += text(x + 18, y + 40, num, 28, color, family=SANS, weight=700)
         body += text(x + 18, y + 62, en, 12.5, t["muted"])
-        body += text(x + 18, y + 78, es, 11.5, t["dim"], extra='font-style="italic"')
 
     # language bar: share of public repos by primary language
     langs = sorted(data["languages"].items(), key=lambda kv: -kv[1]["count"])
     n = sum(v["count"] for _, v in langs) or 1
     top, rest = langs[:6], sum(v["count"] for _, v in langs[6:])
-    by = 300
+    by = 280
     bx, bw = 32, W - 64
     body += f'<clipPath id="bar"><rect x="{bx}" y="{by}" width="{bw}" height="8" rx="4"/></clipPath><g clip-path="url(#bar)">'
     x = bx
@@ -280,7 +282,7 @@ def stats(data: dict, t: dict) -> str:
         body += f'<circle cx="{lx + 5}" cy="{by + 26}" r="5" fill="{color}"/>'
         body += text(lx + 15, by + 30.5, item, 12, t["muted"])
         lx += len(item) * 7.3 + 34
-    body += text(32, by - 12, "languages by repo · lenguajes por repo", 12, t["dim"])
+    body += text(32, by - 12, "languages by repo", 12, t["dim"])
     label = (
         f"On GitHub: {fmt(data['last_year'])} contributions in the last year, {current}-day current streak, "
         f"longest streak {longest} days, {fmt(total)} contributions since {since}, "
@@ -306,9 +308,8 @@ def graph(data: dict, t: dict) -> str:
 
     cell, gap = 12, 3
     gx = (W - len(weeks) * (cell + gap) + gap) / 2
-    gy = 74
-    body = text(32, 40, f"{fmt(data['last_year'])} contributions in the last year", 15, t["text"], weight=600)
-    body += text(32, 58, f"{fmt(data['last_year'])} contribuciones en el último año", 12.5, t["dim"], extra='font-style="italic"')
+    gy = 62
+    body = text(32, 42, f"{fmt(data['last_year'])} contributions in the last year", 15, t["text"], weight=600)
     last_month, last_label_wi = None, -9
     months_en = "Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec".split()
     for wi, week in enumerate(weeks):
@@ -332,20 +333,20 @@ def graph(data: dict, t: dict) -> str:
                 f'<title>{d["date"]}: {d["contributionCount"]}</title></rect>'
             )
     # legend
-    lx = W - 32 - 5 * (cell + gap) - 90
-    ly = 34
-    body += text(lx - 8, ly + 10, "less · menos", 11, t["dim"], anchor="end")
+    lx = W - 32 - 5 * (cell + gap) - 34
+    ly = 31
+    body += text(lx - 8, ly + 10, "less", 11, t["dim"], anchor="end")
     for i, c in enumerate(t["heat"]):
         body += f'<rect x="{lx + i * (cell + gap)}" y="{ly}" width="{cell}" height="{cell}" rx="2.5" fill="{c}"/>'
-    body += text(lx + 5 * (cell + gap) + 6, ly + 10, "more · más", 11, t["dim"])
+    body += text(lx + 5 * (cell + gap) + 6, ly + 10, "more", 11, t["dim"])
     H = gy + 7 * (cell + gap) + 34
     return svg(W, H, f"{fmt(data['last_year'])} contributions in the last year", body, t)
 
 
-def whoami(t: dict) -> str:
+def whoami(t: dict, lang: str) -> str:
     rows = PROFILE["whoami"]
-    row_h = 44
-    H = 64 + 34 + len(rows) * row_h + 24
+    row_h = 32
+    H = 64 + 34 + len(rows) * row_h + 30
     body = (
         f'<path d="M14 0.5 H{W - 14} A13.5 13.5 0 0 1 {W - 0.5} 14 V40 H0.5 V14 A13.5 13.5 0 0 1 14 0.5 Z" fill="{t["panel"]}"/>'
         f'<line x1="0.5" y1="40" x2="{W - 0.5}" y2="40" stroke="{t["border"]}"/>'
@@ -358,12 +359,11 @@ def whoami(t: dict) -> str:
     for i, r in enumerate(rows):
         y = 116 + i * row_h
         body += text(50, y, r["key"], 14.5, t["accent2"], weight=600)
-        body += text(50 + key_w, y, r["en"], 14.5, t["text"])
-        body += text(50 + key_w, y + 18, f"# {r['es']}", 12.5, t["dim"])
-    cy = 116 + len(rows) * row_h - 6
+        body += text(50 + key_w, y, r[lang], 14.5, t["text"])
+    cy = 116 + len(rows) * row_h + 8
     body += text(32, cy, "$", 15, t["accent"], weight=700)
     body += f'<rect x="50" y="{cy - 13}" width="9" height="17" fill="{t["accent"]}"><animate attributeName="opacity" values="1;1;0;0" dur="1.1s" repeatCount="indefinite"/></rect>'
-    label = "whoami: " + "; ".join(f"{r['key']}: {r['en']}" for r in rows)
+    label = "whoami: " + "; ".join(f"{r['key']}: {r[lang]}" for r in rows)
     return svg(W, H, label, body, t)
 
 
@@ -385,7 +385,10 @@ def readme(data: dict) -> str:
         f'<a href="{esc(l["url"])}">{picture("badge-" + l["kind"], l["label"], height="44")}</a>' for l in links
     )
     total = sum(data["per_year"].values())
-    return f"""{picture("hero", f"Hi, I'm {PROFILE['name']}. {tag['en']}")}
+    def who(lang):
+        return "whoami: " + "; ".join(f"{r['key']}: {r[lang]}" for r in PROFILE["whoami"])
+
+    return f"""{picture("hero-en", f"Hi, I'm {PROFILE['name']}. {tag['en']}")}
 
 <p align="center">
 {badges}
@@ -395,9 +398,19 @@ def readme(data: dict) -> str:
 
 {picture("graph", f"{fmt(data['last_year'])} contributions in the last year")}
 
-{picture("whoami", "whoami: " + "; ".join(f"{r['key']}: {r['en']}" for r in PROFILE["whoami"]))}
+{picture("whoami-en", who("en"))}
 
-<p align="center"><sub>Cards redrawn every night by a GitHub Action · Tarjetas redibujadas cada noche por un GitHub Action</sub></p>
+<details>
+<summary><b>🇲🇽 Ver en español</b></summary>
+<br>
+
+{picture("hero-es", f"Hola, soy {PROFILE['name']}. {tag['es']}")}
+
+{picture("whoami-es", who("es"))}
+
+</details>
+
+<p align="center"><sub>Cards redrawn every night by a GitHub Action</sub></p>
 """
 
 
@@ -418,10 +431,11 @@ def main() -> None:
             data = json.loads(STATE.read_text(encoding="utf-8"))
 
     for name, t in THEMES.items():
-        write("hero", name, hero(t))
+        for lang in ("en", "es"):
+            write(f"hero-{lang}", name, hero(t, lang))
+            write(f"whoami-{lang}", name, whoami(t, lang))
         write("stats", name, stats(data, t))
         write("graph", name, graph(data, t))
-        write("whoami", name, whoami(t))
         for link in PROFILE["links"]:
             if link["url"]:
                 write("badge-" + link["kind"], name, badge(link, t)[0])

@@ -14,8 +14,8 @@
   ],
   "whoami": [
     { "key": "role",     "en": "CS student @ TecNM Pachuca",                    "es": "estudiante de CS en el TecNM Pachuca" },
-    { "key": "stack",    "en": "JavaScript · TypeScript · Python · PHP · Java",  "es": "lo que más uso día a día" },
-    { "key": "3d",       "en": "Three.js scenes, models and small games",        "es": "escenas, modelos y juegos con Three.js" },
+    { "key": "stack",    "en": "JavaScript · TypeScript · Python · PHP · Java",  "es": "JavaScript · TypeScript · Python · PHP · Java" },
+    { "key": "3d",       "en": "Three.js scenes, models and small games",        "es": "escenas, modelos y juegos pequeños con Three.js" },
     { "key": "building", "en": "UniTrack, SchTrack, an IoT vehicle (API + web)", "es": "UniTrack, SchTrack y un vehículo IoT (API + web)" },
     { "key": "now",      "en": "Getting better at full-stack, one repo a week",  "es": "mejorando en full-stack, un repo a la vez" }
   ]

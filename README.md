@@ -1,4 +1,4 @@
-<picture><source media="(prefers-color-scheme: dark)" srcset="assets/hero-dark.svg"><img src="assets/hero-light.svg" width="100%" alt="Hi, I&#x27;m Jesus Alfonso. CS student at TecNM Pachuca. Building and learning every day."></picture>
+<picture><source media="(prefers-color-scheme: dark)" srcset="assets/hero-en-dark.svg"><img src="assets/hero-en-light.svg" width="100%" alt="Hi, I&#x27;m Jesus Alfonso. CS student at TecNM Pachuca. Building and learning every day."></picture>
 
 <p align="center">
 <a href="https://github.com/80chucho08"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/badge-github-dark.svg"><img src="assets/badge-github-light.svg" height="44" alt="@80chucho08"></picture></a>
@@ -11,6 +11,16 @@
 
 <picture><source media="(prefers-color-scheme: dark)" srcset="assets/graph-dark.svg"><img src="assets/graph-light.svg" width="100%" alt="446 contributions in the last year"></picture>
 
-<picture><source media="(prefers-color-scheme: dark)" srcset="assets/whoami-dark.svg"><img src="assets/whoami-light.svg" width="100%" alt="whoami: role: CS student @ TecNM Pachuca; stack: JavaScript · TypeScript · Python · PHP · Java; 3d: Three.js scenes, models and small games; building: UniTrack, SchTrack, an IoT vehicle (API + web); now: Getting better at full-stack, one repo a week"></picture>
+<picture><source media="(prefers-color-scheme: dark)" srcset="assets/whoami-en-dark.svg"><img src="assets/whoami-en-light.svg" width="100%" alt="whoami: role: CS student @ TecNM Pachuca; stack: JavaScript · TypeScript · Python · PHP · Java; 3d: Three.js scenes, models and small games; building: UniTrack, SchTrack, an IoT vehicle (API + web); now: Getting better at full-stack, one repo a week"></picture>
 
-<p align="center"><sub>Cards redrawn every night by a GitHub Action · Tarjetas redibujadas cada noche por un GitHub Action</sub></p>
+<details>
+<summary><b>🇲🇽 Ver en español</b></summary>
+<br>
+
+<picture><source media="(prefers-color-scheme: dark)" srcset="assets/hero-es-dark.svg"><img src="assets/hero-es-light.svg" width="100%" alt="Hola, soy Jesus Alfonso. Estudiante de CS en el TecNM Pachuca. Construyendo y aprendiendo cada día."></picture>
+
+<picture><source media="(prefers-color-scheme: dark)" srcset="assets/whoami-es-dark.svg"><img src="assets/whoami-es-light.svg" width="100%" alt="whoami: role: estudiante de CS en el TecNM Pachuca; stack: JavaScript · TypeScript · Python · PHP · Java; 3d: escenas, modelos y juegos pequeños con Three.js; building: UniTrack, SchTrack y un vehículo IoT (API + web); now: mejorando en full-stack, un repo a la vez"></picture>
+
+</details>
+
+<p align="center"><sub>Cards redrawn every night by a GitHub Action</sub></p>
