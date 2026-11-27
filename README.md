@@ -7,9 +7,9 @@
 <a href="mailto:jesuscarbajalsistemas@gmail.com"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/badge-mail-dark.svg"><img src="assets/badge-mail-light.svg" height="44" alt="Email"></picture></a>
 </p>
 
-<picture><source media="(prefers-color-scheme: dark)" srcset="assets/stats-dark.svg"><img src="assets/stats-light.svg" width="100%" alt="446 contributions in the last year, 2-day streak, longest 15 days, 651 total, 36 public repos, 7 stars"></picture>
+<picture><source media="(prefers-color-scheme: dark)" srcset="assets/stats-dark.svg"><img src="assets/stats-light.svg" width="100%" alt="447 contributions in the last year, 2-day streak, longest 15 days, 652 total, 36 public repos, 7 stars"></picture>
 
-<picture><source media="(prefers-color-scheme: dark)" srcset="assets/graph-dark.svg"><img src="assets/graph-light.svg" width="100%" alt="446 contributions in the last year"></picture>
+<picture><source media="(prefers-color-scheme: dark)" srcset="assets/graph-dark.svg"><img src="assets/graph-light.svg" width="100%" alt="447 contributions in the last year"></picture>
 
 <picture><source media="(prefers-color-scheme: dark)" srcset="assets/whoami-en-dark.svg"><img src="assets/whoami-en-light.svg" width="100%" alt="whoami: role: CS student @ TecNM Pachuca; stack: JavaScript · TypeScript · Python · PHP · Java; 3d: Three.js scenes, models and small games; building: UniTrack, SchTrack, an IoT vehicle (API + web); now: Getting better at full-stack, one repo a week"></picture>
 
