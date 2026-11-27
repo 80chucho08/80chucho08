@@ -1,0 +1,42 @@
+name: refresh profile cards
+
+# Redraws the SVG cards from public GitHub data and commits them when something changed.
+# The built-in GITHUB_TOKEN is enough; no secret to set up.
+on:
+  schedule:
+    - cron: "23 7 * * *"   # once a day, 01:23 in Mexico City
+  workflow_dispatch:        # "Run workflow" button in the Actions tab
+  push:
+    paths:
+      - "scripts/**"
+      - "profile.json"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: refresh-profile
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python scripts/build.py
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Commit the refreshed cards
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add assets README.md scripts/state.json
+          if git diff --cached --quiet; then
+            echo "nothing changed"
+          else
+            git commit -m "chore: refresh profile cards"
+            git push
+          fi

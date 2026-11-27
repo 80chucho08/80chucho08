@@ -1,0 +1,22 @@
+{
+  "login": "80chucho08",
+  "name": "Jesus Alfonso",
+  "tagline": {
+    "en": "CS student at TecNM Pachuca. Building and learning every day.",
+    "es": "Estudiante de CS en el TecNM Pachuca. Construyendo y aprendiendo cada día."
+  },
+  "location": "Pachuca, Hidalgo · MX",
+  "links": [
+    { "kind": "github",    "label": "@80chucho08", "url": "https://github.com/80chucho08" },
+    { "kind": "site",      "label": "Portfolio",   "url": "https://dev-personal-portafolio.vercel.app" },
+    { "kind": "linkedin",  "label": "LinkedIn",    "url": "https://www.linkedin.com/in/jesusalfonsonc" },
+    { "kind": "mail",      "label": "Email",       "url": "mailto:jesuscarbajalsistemas@gmail.com" }
+  ],
+  "whoami": [
+    { "key": "role",     "en": "CS student @ TecNM Pachuca",                    "es": "estudiante de CS en el TecNM Pachuca" },
+    { "key": "stack",    "en": "JavaScript · TypeScript · Python · PHP · Java",  "es": "lo que más uso día a día" },
+    { "key": "3d",       "en": "Three.js scenes, models and small games",        "es": "escenas, modelos y juegos con Three.js" },
+    { "key": "building", "en": "UniTrack, SchTrack, an IoT vehicle (API + web)", "es": "UniTrack, SchTrack y un vehículo IoT (API + web)" },
+    { "key": "now",      "en": "Getting better at full-stack, one repo a week",  "es": "mejorando en full-stack, un repo a la vez" }
+  ]
+}
