@@ -32,12 +32,14 @@ THEMES = {
         "text": "#e6edf3", "muted": "#8b96a5", "dim": "#5d6876",
         "accent": "#2dd4a7", "accent2": "#f5a524",
         "heat": ["#18212c", "#0e4b3d", "#137a60", "#1ca883", "#2dd4a7"],
+        "cell_text": ["#8b96a5", "#bff5e5", "#e8fff8", "#06241c", "#06241c"],
     },
     "light": {
         "bg": "#ffffff", "panel": "#f6f8fa", "border": "#d8dee4", "grid": "#eef1f4",
         "text": "#1f2328", "muted": "#59636e", "dim": "#8c959f",
         "accent": "#0d9473", "accent2": "#b86e00",
         "heat": ["#ebeef1", "#b3e8d8", "#6fd1b3", "#24b089", "#0b7f62"],
+        "cell_text": ["#59636e", "#0b4d3c", "#073b2e", "#ffffff", "#ffffff"],
     },
 }
 
@@ -306,7 +308,7 @@ def graph(data: dict, t: dict) -> str:
             return 0
         return min(4, 1 + int(3 * c / mx + 0.5)) if mx > 4 else min(4, c)
 
-    cell, gap = 12, 3
+    cell, gap = 14, 2  # 53 weeks x 16px fits in the 880px card, and leaves room for a two-digit count
     gx = (W - len(weeks) * (cell + gap) + gap) / 2
     gy = 62
     body = text(32, 42, f"{fmt(data['last_year'])} contributions in the last year", 15, t["text"], weight=600)
@@ -327,11 +329,18 @@ def graph(data: dict, t: dict) -> str:
             if not d:
                 continue
             y = gy + wd * (cell + gap)
-            fill = t["heat"][level(d["contributionCount"])]
+            n = d["contributionCount"]
+            lv = level(n)
             body += (
-                f'<rect x="{x:.1f}" y="{y}" width="{cell}" height="{cell}" rx="2.5" fill="{fill}">'
-                f'<title>{d["date"]}: {d["contributionCount"]}</title></rect>'
+                f'<rect x="{x:.1f}" y="{y}" width="{cell}" height="{cell}" rx="2.5" fill="{t["heat"][lv]}">'
+                f'<title>{d["date"]}: {n}</title></rect>'
             )
+            if n:  # the day's count, printed inside its square
+                body += text(
+                    f"{x + cell / 2:.1f}", y + cell / 2 + 3, n if n < 100 else "99+",
+                    8 if n < 10 else 7.5, t["cell_text"][lv], weight=700, anchor="middle",
+                    extra='letter-spacing="-0.3"',
+                )
     # legend
     lx = W - 32 - 5 * (cell + gap) - 34
     ly = 31
